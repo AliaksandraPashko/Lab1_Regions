@@ -1,0 +1,9 @@
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\bin\Lab1(regions).dll.config
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\bin\Lab1(regions).dll
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\bin\Lab1(regions).pdb
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\obj\Debug\Lab1(regions).csprojResolveAssemblyReference.cache
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\obj\Debug\Lab1(regions).csproj.CoreCompileInputs.cache
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\obj\Debug\Lab1(regions).dll
+D:\VSProjects2017\Lab1(regions)\Lab1(regions)\obj\Debug\Lab1(regions).pdb
