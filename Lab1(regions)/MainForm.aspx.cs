@@ -12,24 +12,62 @@ namespace Lab1_regions_
 {
     public partial class MainForm : System.Web.UI.Page
     {
+        SqlConnection connection;
+        SqlCommand cmd;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["CountryDBConnectionString"].ConnectionString;
-        
-            SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT ID, Name FROM Regions", connection);
-            connection.Open();
-            DropDownList1.DataSource = cmd.ExecuteReader();
-            DropDownList1.DataTextField = "Name";
-            DropDownList1.DataValueField = "ID";
-            DropDownList1.DataBind();
-            connection.Close();
+            if (!IsPostBack)
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["CountryDBConnectionString"].ConnectionString;
+                connection = new SqlConnection(connectionString);
+
+                DataTable dt = new DataTable();
+                using (connection)
+                {
+                    connection.Open();
+                    cmd = new SqlCommand("SELECT ID,Name FROM Regions", connection);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                DDListRegions.DataSource = dt;
+                DDListRegions.DataBind();
+                DDListRegions.Items.Insert(0, new ListItem("-Select-", "0"));
+                if (connection.State != ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
         }
 
-        protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+        protected void DDListRegions_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (DDListRegions.SelectedIndex > 0)
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["CountryDBConnectionString"].ConnectionString;
+                connection = new SqlConnection(connectionString);
 
+                DataTable dt = new DataTable();
+                using (connection)
+                {
+                    connection.Open();
+                    cmd = new SqlCommand("SELECT ID,Name FROM Districts where IDRegion=" + DDListRegions.SelectedValue, connection);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                DDListDistricts.DataSource = dt;
+                DDListDistricts.DataBind();
+                DDListDistricts.Items.Insert(0, new ListItem("-Select-", "0"));
+                if (connection.State != ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
         }
-        
+
+        protected void DDListDistricts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+        }
     }
 }
