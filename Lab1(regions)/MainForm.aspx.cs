@@ -22,15 +22,10 @@ namespace Lab1_regions_
                 string connectionString = ConfigurationManager.ConnectionStrings["CountryDBConnectionString"].ConnectionString;
                 connection = new SqlConnection(connectionString);
 
-                DataTable dt = new DataTable();
-                using (connection)
-                {
-                    connection.Open();
-                    cmd = new SqlCommand("SELECT ID,Name FROM Regions", connection);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.Fill(dt);
-                }
-                DDListRegions.DataSource = dt;
+                connection.Open();
+                cmd = new SqlCommand("SELECT ID,Name FROM Regions", connection);
+
+                DDListRegions.DataSource = cmd.ExecuteReader();
                 DDListRegions.DataBind();
                 DDListRegions.Items.Insert(0, new ListItem("-Select-", "0"));
                 if (connection.State != ConnectionState.Closed)
@@ -46,16 +41,11 @@ namespace Lab1_regions_
             {
                 string connectionString = ConfigurationManager.ConnectionStrings["CountryDBConnectionString"].ConnectionString;
                 connection = new SqlConnection(connectionString);
-
-                DataTable dt = new DataTable();
-                using (connection)
-                {
-                    connection.Open();
-                    cmd = new SqlCommand("SELECT ID,Name FROM Districts where IDRegion=" + DDListRegions.SelectedValue, connection);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.Fill(dt);
-                }
-                DDListDistricts.DataSource = dt;
+                
+                connection.Open();
+                cmd = new SqlCommand("SELECT ID,Name FROM Districts where IDRegion=" + DDListRegions.SelectedValue, connection);
+       
+                DDListDistricts.DataSource = cmd.ExecuteReader();
                 DDListDistricts.DataBind();
                 DDListDistricts.Items.Insert(0, new ListItem("-Select-", "0"));
                 if (connection.State != ConnectionState.Closed)
@@ -67,7 +57,26 @@ namespace Lab1_regions_
 
         protected void DDListDistricts_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+            if (DDListDistricts.SelectedIndex > 0)
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["CountryDBConnectionString"].ConnectionString;
+                connection = new SqlConnection(connectionString);
+
+                cmd = new SqlCommand("SELECT ID,Name,Type,Population from Settlements where IDDistrict=" + DDListDistricts.SelectedValue, connection);
+                connection.Open();
+                
+                GridView.DataSource = cmd.ExecuteReader();
+                GridView.DataBind();
+                if (connection.State != ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        protected void EditButton_Click(object sender, EventArgs e)
+        {
+        
         }
     }
 }
